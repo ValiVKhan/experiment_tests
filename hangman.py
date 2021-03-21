@@ -77,7 +77,8 @@ losercount = 0
 def asker():
     global guess
     guess =  (input("What is your letter guess? "))
-
+    global guesslenght
+    guesslenght = (len(guess))
 
 #The lenght of the world, later used to see the amount of blanks
 global wordlenth
@@ -91,7 +92,6 @@ global calc
 calc = 1
 # Finder runs through each character of the word and searches for the guess letter that was inputted.
 def finder():
-    Letter_list.append(guess)
     #Letter is used when searching through the word
     letter = 0
     #Wroner is a counter which is only counted for when the guess letter is not found in a postion of the word
@@ -102,17 +102,17 @@ def finder():
             #print (letter)
             blank[letter] = guess
             #print(blank)
-            letter = letter + 1
+            letter += 1
             global calc
-            calc = calc + 1
+            calc +=1
         else:
-            letter = letter + 1
-            wroner = wroner + 1
+            letter +=1
+            wroner +=1
             global losercount
-            losercount = losercount + 1
+            losercount +=1
     if wroner == wordlenth:
         global wrong
-        wrong = wrong + 1
+        wrong += 1
         #wrong counts what graphic to display from the array hanger
         if wrong != 7:
             print(hanger[wrong])
@@ -124,19 +124,29 @@ def finder():
 #asker and finder are the  fucntions and must be ran before once because they give calues for the loop
 Letter_list = []
 asker()
+Letter_list.append(guess)
+global guesslenght
+guesslenght = (len(guess))
 finder()
 #The while loop controlling everything
 while 1:
     #If the blanks dont equal the word ask for another letter and run finder
     if blanks != word:
         asker()
-        if guess in Letter_list:
+        if guess == '':
+            print("No Letter Provided")
+        #if guesslenght > 1:
+            #print("Only provide 1 letter")
+        elif guess in Letter_list:
             print("Letter has already been used before!")
+            #print(Letter_list)
         else:
             finder()
+            Letter_list.append(guess)
+            #print(Letter_list)
         #If los
     if wrong == 6:
-        print(word)
+        print("The word was "+ str(word)+ "!!!")
         break
     if calc == wordlenth:
         #Prints winner when the blank and word match
